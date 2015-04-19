@@ -1,0 +1,466 @@
+\documentclass[10pt, a4paper, landscape]{article}
+
+%%%%%%%%%%%%%%%紙張大小設定%%%%%%%%%%%%%%%
+% \paperwidth=65cm
+% \paperheight=160cm
+
+%%%%%%%%%%%%%%%引入Package%%%%%%%%%%%%%%%
+\usepackage[margin=0.5cm]{geometry} % 上下左右距離邊緣2cm
+\usepackage{mathtools,amsthm,amssymb} % 引入 AMS 數學環境
+\usepackage{yhmath}      % math symbol
+\usepackage{graphicx}    % 圖形插入用
+\usepackage{fontspec}    % 加這個就可以設定字體
+\usepackage{type1cm}	 % 設定fontsize用
+\usepackage{titlesec}   % 設定section等的字體
+\usepackage{titling}    % 加強 title 功能
+\usepackage{fancyhdr}   % 頁首頁尾
+\usepackage{tabu}   % 加強版 table
+\usepackage[square, comma, numbers, super, sort&compress]{natbib}
+% cite加強版
+\usepackage[unicode=true, pdfborder={0 0 0}, bookmarksdepth=-1]{hyperref}
+% ref加強版
+\usepackage[usenames, dvipsnames]{color}  % 可以使用顏色
+\usepackage[shortlabels]{enumitem}  % 加強版enumerate
+\usepackage{xpatch}
+
+\usepackage{multirow}   % multirow
+% \usepackage{soul}       % highlight
+% \usepackage{ulem}       % 字加裝飾
+% \usepackage{wrapfig}     % 文繞圖
+% \usepackage{floatflt}    % 浮動 figure
+% \usepackage{float}       % 浮動環境
+% \usepackage{caption}    % caption 增強
+% \usepackage{subcaption}    % subfigures
+% \usepackage{setspace}    % 控制空行
+% \usepackage{mdframed}   % 可以加文字方框
+% \usepackage{multicol}   % 多欄
+% \usepackage{siunitx}      % SI unit
+
+%%%%%%%%%%%%%%%%%%%TikZ%%%%%%%%%%%%%%%%%%%%%%
+% \usepackage{tikz}
+
+%%%%%%%%%%%%%%中文 Environment%%%%%%%%%%%%%%%
+\usepackage[CheckSingle, CJKmath]{xeCJK}  % xelatex 中文
+\usepackage{CJKulem}	% 中文字裝飾
+\setCJKmainfont[BoldFont=cwTeX Q Hei]{cwTeX Q Ming}
+% 設定中文為系統上的字型，而英文不去更動，使用原TeX字型
+
+% \XeTeXlinebreaklocale "zh"             %這兩行一定要加，中文才能自動換行
+% \XeTeXlinebreakskip = 0pt plus 1pt     %這兩行一定要加，中文才能自動換行
+
+%%%%%%%%%%%%%%%字體大小設定%%%%%%%%%%%%%%%
+% \def\normalsize{\fontsize{10}{15}\selectfont}
+% \def\large{\fontsize{40}{60}\selectfont}
+% \def\Large{\fontsize{50}{75}\selectfont}
+% \def\LARGE{\fontsize{90}{20}\selectfont}
+% \def\huge{\fontsize{34}{51}\selectfont}
+% \def\Huge{\fontsize{38}{57}\selectfont}
+
+%%%%%%%%%%%%%%%Theme Input%%%%%%%%%%%%%%%%
+% \input{themes/chapter/neat}
+% \input{themes/env/problist}
+
+%%%%%%%%%%%titlesec settings%%%%%%%%%%%%%%
+% \titleformat{\chapter}{\bf\Huge}
+            % {\arabic{section}}{0em}{}
+% \titleformat{\section}{\centering\Large}
+            % {\arabic{section}}{0em}{}
+% \titleformat{\subsection}{\large}
+            % {\arabic{subsection}}{0em}{}
+% \titleformat{\subsubsection}{\bf\normalsize}
+            % {\arabic{subsubsection}}{0em}{}
+% \titleformat{command}[shape]{format}{label}
+            % {編號與標題距離}{before}[after]
+
+%%%%%%%%%%%%variable settings%%%%%%%%%%%%%%
+% \numberwithin{equation}{section}
+% \setcounter{secnumdepth}{4}  %章節標號深度
+% \setcounter{tocdepth}{1}  %目錄深度
+% \graphicspath{{images/}}  % 搜尋圖片目錄
+
+%%%%%%%%%%%%%table settings%%%%%%%%%%%%%%%%
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{'}{!{\vrule width 1pt}}
+\newcommand{\tstack}[2][c]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+\def\arraystretch{1.3}
+
+%%%%%%%%%%%%%%%頁面設定%%%%%%%%%%%%%%%
+\setlength{\headheight}{15pt}  %with titling
+\setlength{\droptitle}{-1.5cm} %title 與上緣的間距
+\parindent=0pt %設定縮排的距離
+% \parskip=1ex  %設定行距
+% \pagestyle{empty}  % empty: 無頁碼
+% \pagestyle{fancy}  % fancy: fancyhdr
+
+% use with fancygdr
+% \lhead{\leftmark}
+% \chead{}
+% \rhead{}
+% \lfoot{}
+% \cfoot{}
+% \rfoot{\thepage}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
+
+% \fancypagestyle{firststyle}
+% {
+  % \fancyhf{}
+  % \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage}}
+  % \renewcommand{\headrule}{\rule{\textwidth}{\headrulewidth}}
+% }
+
+%%%%%%%%%%%%%%%重定義一些command%%%%%%%%%%%%%%%
+\renewcommand{\contentsname}{目錄}  %設定目錄的標題名稱
+\renewcommand{\refname}{參考資料}  %設定參考資料的標題名稱
+\renewcommand{\abstractname}{\LARGE Abstract} %設定摘要的標題名稱
+
+%%%%%%%%%%%%%%%特殊功能函數符號設定%%%%%%%%%%%%%%%
+% \newcommand{\citet}[1]{\textsuperscript{\cite{#1}}}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\inpd}{\langle}{\rangle} % inner product
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arcsech}{arcsech}
+\DeclareMathOperator{\arccsch}{arccsch}
+\DeclareMathOperator{\arccoth}{arccoth}
+\newcommand{\np}[1]{\\[{#1}] \indent}
+\newcommand{\transpose}[1]{{#1}^\mathrm{T}}
+%%%% Geometry Symbol %%%%
+\newcommand{\degree}{^\circ}
+\newcommand{\Arc}[1]{\wideparen{{#1}}}
+\newcommand{\Line}[1]{\overleftrightarrow{{#1}}}
+\newcommand{\Ray}[1]{\overrightarrow{{#1}}}
+\newcommand{\Segment}[1]{\overline{{#1}}}
+
+%%%%%%%%%%%%%%%證明、結論、定義等等的環境%%%%%%%%%%%%%%%
+\renewcommand{\proofname}{\bf 證明:} %修改Proof 標頭
+\newtheoremstyle{mystyle}% 自定義Style
+  {6pt}{15pt}%       上下間距
+  {}%               內文字體
+  {}%               縮排
+  {\bf}%            標頭字體
+  {.}%              標頭後標點
+  {1em}%            內文與標頭距離
+  {}%               Theorem head spec (can be left empty, meaning 'normal')
+
+% 改用粗體，預設 remark style 是斜體
+\theoremstyle{mystyle}	% 定理環境Style
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{formula}{公式}
+\newtheorem{condition}{條件}
+\newtheorem{supposition}{假設}
+\newtheorem{conclusion}{結論}
+\newtheorem{lemma}{引理}
+\newtheorem{property}{性質}
+
+%%%%%%%%%%%%%%%Title的資訊%%%%%%%%%%%%%%%
+\title{Signals and Systems Final Notes} %標題
+\author{LeoMao} %作者
+\date{\today} %日期
+
+\begin{document}
+% \maketitle %製作tilte page
+% \thispagestyle{empty}  %去除頁碼
+% \thispagestyle{fancy}  %使用fancyhdr
+% \tableofcontents %目錄
+%%%%%%%%%%%%%%%%%%%include file here%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{minipage}{12cm}
+\begin{tabu}{C{2.5cm}'C{2.5cm}C{2.5cm}C{2.5cm}}
+  property & $x(t)$ & $X(s)$ & ROC \\
+  \hline
+  definition &
+  \multicolumn{2}{c}{\tstack{
+  $\displaystyle X(s) = \int_{-\infty}^{\infty} x(t)e^{-st} dt$ \\
+  $\displaystyle x(t) = \frac{1}{2\pi j}\int_{\sigma-j\infty}^{\sigma+j\infty}
+  X(s)e^{st}ds$
+  }} & $R$
+  \\
+  time shift & $x(t-t_0)$ & $e^{-st_0}X(s)$ & $R$
+  \\
+  s-Domain shift & $e^{s_0t}x(t)$ & $X(s-s_0)$ & $R - s_0$
+  \\
+  scaling & $x(at)$ & $\frac{1}{\abs{a}}X\left(\frac{s}{a}\right)$ &
+  $aR$
+  \\
+  conjugation & $x^*(t)$ & $X^*(s^*)$ & $R$
+  \\
+  convolution & $x_1(t)\ast x_2(t)$ & $X_1(s)X_2(s)$ &
+  At least $R_1 \cap R_2$
+  \\
+  time 微分 & $\frac{d}{dt}x(t)$ & $s X(s)$ & At least $R$
+  \\
+  s 微分 & $-tx(t)$ & $\frac{d}{ds}X(s)$ & $R$
+  \\
+  time 積分 & $\displaystyle \int_{-\infty}^{t}x(\tau)d\tau$ &
+  $\frac{1}{s}X(s)$ & At least $R \cap \mathfrak{Re}\{s\} > 0$
+  \\
+  \hline
+\end{tabu}
+\begin{tabu}{C{4cm}C{3cm}C{3cm}}
+  Signal & $\mathcal{L}$ & ROC \\ \hline
+  $\delta(t-T)$ & $e^{-sT}$ & All $s$ \\
+  $\displaystyle \frac{t^{n-1}}{(n-1)!}e^{-\alpha t}u(t)$ &
+  $\displaystyle \frac{1}{(s+\alpha)^n}$ &
+  $\mathfrak{Re}\{s\} > -\alpha$ \\
+  $\displaystyle -\frac{t^{n-1}}{(n-1)!}e^{-\alpha t}u(-t)$ &
+  $\displaystyle \frac{1}{(s+\alpha)^n}$ &
+  $\mathfrak{Re}\{s\} < -\alpha$ \\
+  $e^{-\alpha t} \cos(\omega_0 t)u(t)$ &
+  $\displaystyle \frac{s+\alpha}{(s+\alpha)^2 + \omega_0^2}$ &
+  $\mathfrak{Re}\{s\} > -\alpha$ \\
+  $e^{-\alpha t} \sin(\omega_0 t)u(t)$ &
+  $\displaystyle \frac{\omega_0}{(s+\alpha)^2 + \omega_0^2}$ &
+  $\mathfrak{Re}\{s\} > -\alpha$ \\
+  $\displaystyle u_n(t) = \frac{d^n\delta(t)}{dt^n}$ &
+  $s^n$ & All $s$ \\
+  $u_{-n}(t) = \underbrace{u(t) \ast \dots \ast u(t)}_\text{$n$ times}$ &
+  $\displaystyle \frac{1}{s^n}$ & All $s$ \\
+  \hline
+\end{tabu}
+Linearity: ROC 至少包含全部 ROC 的交集。\\
+Causality: ROC 包含右半 s-plane，
+Stablity: ROC 包含 $\sigma=0$ 那條 \\
+Unilateral Laplace Transform special:
+$\frac{d}{dt}x(t) \Rightarrow sX(s) - x(0^-)$ \\
+Initial Value Theorem:\\
+if $x(t) = 0$ for $t<0$ and no impulses or higher-order singularities
+at $t=0$, \\
+$x(0^+) = \lim_{s\to\infty} sX(s)$ \\ 
+Final Value Theorem:\\
+if $x(t) = 0$ for $t<0$ and has a finite limit
+as $t \to \infty$, \\
+$\lim_{t\to\infty}x(t) = \lim\limits_{s\to 0} sX(s)$
+\end{minipage}
+\begin{minipage}{13cm}
+\begin{tabu}{C{3cm}'C{2.5cm}C{2.5cm}C{4cm}}
+  property & $x[n]$ & $X(z)$ & ROC \\
+  \hline
+  definition &
+  \multicolumn{2}{c}{\tstack{
+  $\displaystyle X(z) = \sum_{n=-\infty}^{\infty} x[n]z^{-n}$ \\
+  $\displaystyle x[n] = \frac{1}{2\pi j}\oint_r X(z)z^{n-1}dz$
+  }} & $R$
+  \\
+  time shift & $x[n-n_0]$ & $z^{-n_0}X(z)$ & $R$, except for the
+  possible addition or deletion of the origin
+  \\
+  z-Domain scaling & $z_0^nx[n]$ & $X\left(\frac{z}{z_0}\right)$ &
+  $z_0R$
+  \\
+  time reversal & $x[-n]$ & $X(z^{-1})$ & $R^{-1}$
+  \\
+  time expansion & $x_{(k)}[n]$ & $X(z^k)$ & $R^{1/k}$
+  \\
+  conjugation & $x^*[n]$ & $X^*(z^*)$ & $R$ 
+  \\
+  convolution & $x_1[n]\ast x_2[n]$ & $X_1(z)X_2(z)$ &
+  At least $R_1 \cap R_2$
+  \\
+  z 微分 & $nx[n]$ & $-z\frac{d}{dz}X(z)$ & $R$
+  \\
+  time 積分 & $\displaystyle \sum_{k=-\infty}^{n}x[k]$ &
+  $\frac{1}{1 - z^{-1}}X(s)$ & At least $R \cap \{\abs{z} > 1\}$
+  \\
+  \hline
+\end{tabu}
+\begin{tabu}{C{4cm}C{4cm}C{4cm}}
+  Signal & $\mathcal{Z}$ & ROC \\ \hline
+  $\delta[n-m]$ & $z^{-m}$ & All $z$, except $0$ (if $m>0$) or
+  $\infty$ (if $m<0$) \\
+  $\alpha^nu[n]$ & $\displaystyle \frac{1}{1-\alpha z^{-1}}$ &
+  $\abs{z} > \abs{\alpha}$ \\
+  $-\alpha^nu[-n-1]$ & $\displaystyle \frac{1}{1-\alpha z^{-1}}$ &
+  $\abs{z} < \abs{\alpha}$ \\
+  $n\alpha^nu[n]$ &
+  $\displaystyle \frac{\alpha z^{-1}}{(1-\alpha z^{-1})^2}$ &
+  $\abs{z} > \abs{\alpha}$ \\
+  $-n\alpha^nu[-n-1]$ &
+  $\displaystyle \frac{\alpha z^{-1}}{(1-\alpha z^{-1})^2}$ &
+  $\abs{z} < \abs{\alpha}$ \\
+  $r^n \cos(\omega_0 n)u[n]$ &
+  $\displaystyle \frac{1-r\cos(\omega_0)z^{-1}}
+  {1-2\cos(\omega_0)z^{-1} + r^2 z^{-2}}$ &
+  $\abs{z} > r$ \\
+  $r^n \sin(\omega_0 n)u[n]$ &
+  $\displaystyle \frac{1-r\sin(\omega_0)z^{-1}}
+  {1-2\cos(\omega_0)z^{-1} + r^2 z^{-2}}$ &
+  $\abs{z} > r$ \\
+  \hline
+\end{tabu}
+Linearity: ROC 至少包含全部 ROC 的交集。\\
+Causality: ROC 包含外圍至 $\infty$ ，
+Stablity: ROC 包含 $r = 1$ 那圈 \\
+Unilateral Z-Transform special:
+$x[n-1] \Rightarrow z^{-1}X(z) + x[-1],\, x[n+1] \Rightarrow zX(z) - zx[0]$
+\\
+Initial Value Theorem:\\
+if $x[n] = 0$ for $n<0$, $x[n] = \lim_{z\to\infty} X(z)$ \\ 
+\end{minipage}
+\newpage
+\begin{center}
+\begin{tabu}{C{2cm}'C{2.8cm}C{2.8cm}'C{2.8cm}C{2.8cm}'C{2.8cm}C{2.8cm}'C{2.8cm}C{2.8cm}'}
+  property & \tstack{無週期\\$x(t)$} & $X(j\omega)$ &
+  \tstack{無週期\\$x[n]$} & \tstack{$X(e^{j\omega})$\\$T=2\pi$} &
+  \tstack{$x(t)$週期$T$\\$\omega_0=\frac{2\pi}{T}$} & $a_k$ &
+  \tstack{$x[n]$週期$N$\\$\omega_0=\frac{2\pi}{N}$} &
+  \tstack{$a_k$\\$T = N$} \\
+  \hline
+  Def. &
+  \multicolumn{2}{c'}{\tstack{
+  $\displaystyle X(j\omega) = \int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt$ \\
+  $\displaystyle x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} X(j\omega)e^{j\omega t}d\omega$
+  }} &
+  \multicolumn{2}{c'}{\tstack{
+  $\displaystyle X(e^{j\omega}) = \sum_{n=-\infty}^{\infty} x[n]e^{-j\omega n}$ \\
+  $\displaystyle x[n] = \frac{1}{2\pi}\int_{2\pi} X\left(e^{j\omega}\right)e^{j\omega n} d\omega$
+  }} &
+  \multicolumn{2}{c'}{\tstack{
+  $\displaystyle a_k = \frac{1}{T}\int_{T} x(t)e^{-jk\omega_0 t} dt$ \\
+  $\displaystyle x(t) = \sum_{k=-\infty}^{\infty} a_k e^{jk\omega_0 t}$
+  }} &
+  \multicolumn{2}{c'}{\tstack{
+  $\displaystyle a_k = \frac{1}{N}\sum_{n=\inpd{N}} x[n]e^{-jk\omega_0 n}$ \\
+  $\displaystyle x[n] = \sum_{k=\inpd{N}} a_k e^{jk\omega_0 n}$
+  }}
+  \\
+  \hline
+  time 微分 & $x'(t)$ & $j\omega X(j\omega)$ &
+  $x[n] - x[n-1]$ & $\left(1-e^{-jw}\right) X\left(e^{j\omega}\right)$ &
+  $x'(t)$ & $jk\omega_0 a_k$ &
+  $x[n] - x[n-1]$ & $\left(1-e^{-jw}\right) a_k$ \\
+  \cline{2-9}
+  freq. 微分 & $tx(t)$ & $j \frac{dX(j\omega)}{d\omega}$ &
+  $nx[n]$ & $j \frac{dX\left(e^{j\omega}\right)}{d\omega}$ &
+  \multirow{3}{*}{\tstack{
+  $\displaystyle \int_{-\infty}^t x(\tau)d\tau$\\$a_0$ must be $0$
+  }} &
+  \multirow{3}{*}{$\displaystyle \frac{1}{j\omega_0 k}a_k$} &
+  \multirow{3}{*}{\tstack{
+  $\displaystyle \sum_{k=-\infty}^n x(k)$\\$a_0$ must be $0$
+  }} &
+  \multirow{3}{*}{$\displaystyle \frac{1}{1 - e^{-j\omega_0 k}}a_k$} \\
+  \cline{2-5}
+  time 積分 & $\displaystyle \int_{-\infty}^{t}x(\tau)d\tau$ &
+  $\frac{1}{j\omega}X(j\omega)+\pi X(0)\delta(\omega)$ &
+  $\displaystyle \sum_{k=-\infty}^{n}x[k]$ &
+  $\frac{1}{1-e^{-j\omega}}X\left(e^{j\omega}\right) +
+   \pi X\left(e^{j0}\right) \delta_{2\pi}(\omega)$ &
+   & &
+   &  \\
+  \cline{2-5}
+  freq. 積分 &
+  $\frac{-1}{jt}x(t)+\pi x(0)\delta(t)$ & $\int_{-\infty}^{\omega}X(j\eta)d\eta$ &
+  $\frac{j}{n}x[n]$ & $j \int_{-\pi}^{\omega}X\left(e^{j\eta}\right)d\eta$ &
+   & &
+   &  \\
+  \hline
+  Duality &
+  \multicolumn{2}{c'}{
+  $\displaystyle y(t) \xleftrightarrow{\mathcal{F}} z(\omega)
+  \Leftrightarrow z(t) \xleftrightarrow{\mathcal{F}} 2\pi y(-\omega)$
+  } &
+  \multicolumn{4}{c'}{
+  $\displaystyle y[n] \xleftrightarrow{\mathcal{F}} z(\omega)
+  \Leftrightarrow z(t) \xleftrightarrow{\mathcal{FS}} y[-k]$
+  } &
+  \multicolumn{2}{c'}{
+  $\displaystyle y[n] \xleftrightarrow{\mathcal{FS}} z[k]
+  \Leftrightarrow z[n] \xleftrightarrow{\mathcal{FS}} \frac{1}{N} y[-k]$
+  } \\
+  \hline
+  Parseval's Theorem &
+  \multicolumn{2}{c'}{
+  $\displaystyle \int_{-\infty}^{\infty}\abs*{x(t)}^2 dt =
+  \frac{1}{2\pi}\int_{-\infty}^{\infty} \abs*{X(j\omega)}^2 d\omega$
+  } &
+  \multicolumn{2}{c'}{
+  $\displaystyle \sum_{n=-\infty}^{\infty}\abs*{x[n]}^2 =
+  \frac{1}{2\pi}\int_{2\pi} \abs*{X\left(e^{j\omega}\right)}^2 d\omega$
+  } &
+  \multicolumn{2}{c'}{
+  $\displaystyle \frac{1}{T}\int_{T} \abs*{x(t)}^2 dt =
+   \sum_{k=-\infty}^{\infty}\abs*{a_k}^2 $
+  } &
+  \multicolumn{2}{c'}{
+  $\displaystyle \frac{1}{N}\sum_{n=\inpd{N}}\abs*{x[n]}^2 =
+  \sum_{k=\inpd{N}}\abs*{a_k}^2 $
+  }
+\end{tabu}
+\end{center}
+\begin{tabu}{C{4cm}C{4.5cm}}
+  signal & $\mathcal{F}$ \\ \hline
+  $e^{j\omega_0t}$ & $2\pi\delta(\omega-\omega_0)$ \\ \hline
+  \tstack{$x(t) = \begin{cases} 1, & \abs{t} < T_1 \\
+  0, & T_1 < \abs{t} \le \frac{T}{2} \end{cases} $ \\
+  $x(t + T) = x(t)$
+  } &
+  $\sum \limits_{k=-\infty}^{\infty}\frac{2\sin(k\omega_0 T_1)}{k}
+  \delta(\omega-k\omega_0)$ \\ \hline
+  $\delta_T(t)$ &
+  $\omega_0 \delta_{\omega_0}(\omega)$ \\ \hline
+  $x(t) = \begin{cases} 1, & \abs{t} \le T_1 \\
+  0, & \abs{t} > T_1 \end{cases} $ &
+  $\displaystyle \frac{2\sin(\omega T_1)}{\omega}$ \\ \hline
+  $\displaystyle \frac{\sin(\omega_0 t)}{\pi t}$ &
+  $X(j\omega) = \begin{cases} 1, & \abs{\omega} < \omega_0 \\
+  0, & \abs{\omega} > \omega_0 \end{cases} $ \\ \hline
+  $\displaystyle \frac{t^{n-1}}{(n-1)!}e^{-at}u(t)$ &
+  $\displaystyle \frac{1}{(a+j\omega)^n}$ \\ \hline
+  $\displaystyle e^{-\abs{at}}$ &
+  $\displaystyle \frac{2a}{a^2+\omega^2}$ 
+\end{tabu}
+\begin{tabu}{C{4cm}C{6cm}C{6.5cm}}
+  signal & $\mathcal{F}$ & $\mathcal{FS}$ \\ \hline
+  $e^{j\omega_0n}$ & $2\pi\delta_{2\pi}(\omega-\omega_0)$ &
+  \tstack{
+  $\omega_0 = \frac{2\pi m}{N} \Rightarrow a_k = \begin{cases}
+    1, & k \equiv m \mod N \\ 0, & \text{otherwise}
+  \end{cases}$ \\
+  $\frac{\omega_0}{2\pi}$ 無理 $\Rightarrow$ aperiodic
+  } \\ \hline
+  \tstack{$ x[n] = \begin{cases} 1, & \abs{n} < N_1 \\
+  0, & N_1 < \abs{n} \le \floor*{\frac{N}{2}} \end{cases} $ \\
+  $x[n + N] = x[n]$ ($N$ is odd)
+  } &
+  $2\pi\sum \limits_{k=-\infty}^{\infty}a_k\delta(\omega-k\omega_0)$ & 
+  $a_k = \begin{cases}
+    \frac{\sin\left(k\omega_0\left(N_1+\frac{1}{2}\right)\right)}{N\sin(k\omega_0)},
+    & k \not\equiv 0 \mod N \\
+    \frac{2N_1+1}{N}, & k \equiv 0 \mod N
+  \end{cases}$
+  \\ \hline
+  $\delta_N[n]$ &
+  $\omega_0 \delta_{\omega_0}(\omega)$ & $a_k = \frac{1}{N}$ \\ \hline
+  $x[n] = \begin{cases} 1, & \abs{n} \le N_1 \\
+  0, & \abs{n} > N_1 \end{cases} $ &
+  $\displaystyle
+  \frac{\sin\left(\omega\left(N_1+\frac{1}{2}\right)\right)}{\sin\left(\frac{\omega}{2}\right)}$ & \\ \hline
+  $\frac{\sin(\omega_1n)}{\pi n}, 0 < \omega_1 < \pi$ &
+  $X\left(e^{j\omega}\right) = \begin{cases}
+    1, & \abs{\omega}  \le \omega_1 \\
+    0, & \omega_1 < \abs{\omega} \le \pi
+  \end{cases}$ & \\ \hline
+  $\frac{(n+r-1)!}{n!(r-1)!}a^nu[n]$ &
+  $\frac{1}{\left(1 - ae^{-j\omega}\right)^r}$
+\end{tabu}
+\\
+{\bf 重要}：本表為省空間，令
+$\delta_\alpha(t) = \sum\limits_{k=-\infty}^{\infty} \delta(t-k\alpha)
+\quad \delta_m[n] = \sum\limits_{k=-\infty}^{\infty} \delta[n-km]$ \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \bibliographystyle{plain}
+% \begin{thebibliography}{99}
+% \bibitem[1]{ex}\verb|http://www.example.com/|
+% \end{thebibliography}
+\end{document}
